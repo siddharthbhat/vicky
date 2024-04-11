@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Smart DCU Data Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Smart DCU Data Dashboard</h1>
+      <nav>
+        <ul class="menu">
+          <li><a href="../index.html" class="active">Home</a></li>
+          <li><a href="../about/about.html">About</a></li>
+          <li><a href="../team/team.html">Team</a></li>
+          <li><a href="../sensor/sensor.html">Sensors</a></li>
+          <li><a href="#">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="container flex-container">
+    <div class="login-form">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <select id="role" name="role" required>
+            <option value="staff">Staff</option>
+            <option value="student">Student</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="id">ID:</label>
+          <input type="number" id="id" name="id" required>
+          <small id="idError" class="error-message"></small>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="../signup/signup.html">Sign up</a></p>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript to handle form submission
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Collect form data
+      const formData = new FormData(this);
+
+      // Convert formData to JSON object
+      const jsonData = {};
+      formData.forEach((value, key) => {
+        jsonData[key] = value;
+      });
+
+      // API call to handle login
+      // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+    //   fetch('YOUR_API_ENDPOINT', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(jsonData)
+    //   })
+    //   .then(response => {
+    //     if (response.ok) {
+    //       // Handle successful login
+    //       console.log('Login successful');
+    //     } else {
+    //       // Handle login failure
+    //       console.error('Login failed');
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error:', error);
+    //   });
+    // });
+
+    // Redirect based on role (commenting out API call)
+    const { role } = jsonData;
+      if (role === 'staff') {
+        window.location.href = '../staff/staff.html'; // Redirect to staff page
+      } else if (role === 'student') {
+        window.location.href = '../student/student.html'; // Redirect to student page
+      }
+      setSession(role); // Set user type in localStorage
+    });
+
+    function setSession(userType) {
+    localStorage.setItem('userType', userType); // Store user type in localStorage
+}
+
+    // JavaScript to enforce maxlength for number input
+    document.getElementById('id').addEventListener('input', function(event) {
+      const maxLength = 8;
+      if (this.value.length > maxLength) {
+        this.value = this.value.slice(0, maxLength);
+        document.getElementById('idError').textContent = 'Maximum length exceeded';
+      } else {
+        document.getElementById('idError').textContent = '';
+      }
+    });
+  </script>
+</body>
+</html>
